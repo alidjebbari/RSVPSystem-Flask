@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanks for RSVPing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            background: #0f172a;
+            color: white;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 560px;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .details {
+            text-align: left;
+            margin: 1.5rem 0;
+            line-height: 1.8;
+        }
+        a {
+            color: #a5b4fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <p>You're on the list for</p>
+        <h1>{{ event.title }}</h1>
+        <div class="details">
+            <p><strong>Name:</strong> {{ rsvp.name }}</p>
+            <p><strong>Email:</strong> {{ rsvp.email }}</p>
+            <p><strong>Attending:</strong> {{ 'Yes' if rsvp.attending == 'yes' else 'No' }}</p>
+            {% if rsvp.attending == 'yes' %}
+                <p><strong>Guests:</strong> {{ rsvp.guests }}</p>
+            {% endif %}
+            {% if rsvp.note %}
+                <p><strong>Note:</strong> {{ rsvp.note }}</p>
+            {% endif %}
+        </div>
+        <p>We also sent a calendar hold to your inbox. Need to update anything? Just submit the form again.</p>
+        <p><a href="{{ url_for('index') }}">← Back to RSVP page</a></p>
+    </div>
+</body>
+</html>

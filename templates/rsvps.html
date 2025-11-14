@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RSVP Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 2rem;
+            color: #0f172a;
+        }
+        h1 { margin-top: 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+        }
+        th, td {
+            padding: 0.9rem 1.1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            text-align: left;
+        }
+        th {
+            background: #eef2ff;
+            font-weight: 600;
+        }
+        tr:last-child td { border-bottom: none; }
+        .totals {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .totals div {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.1);
+        }
+        a { color: #4f46e5; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('index') }}">← Back to RSVP form</a>
+    <h1>{{ event.title }} responses</h1>
+    <div class="totals">
+        <div><strong>Coming:</strong> {{ totals.yes }} (+{{ totals.guests }} guests)</div>
+        <div><strong>Declined:</strong> {{ totals.no }}</div>
+        <div><strong>Total responses:</strong> {{ rows|length }}</div>
+        <div><a href="{{ url_for('download_rsvps') }}">⬇ Export CSV</a></div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Submitted</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Guests</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ row.timestamp }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>{{ 'Attending' if row.attending == 'yes' else 'Not attending' }}</td>
+                    <td>{{ row.guests if row.attending == 'yes' else '—' }}</td>
+                    <td>{{ row.note or '—' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
