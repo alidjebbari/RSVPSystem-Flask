@@ -57,7 +57,7 @@ def validate_form(form):
         if guests_val < 0 or guests_val > 5:
             raise ValueError
     except ValueError:
-        errors["guests"] = "Guest count must be between 0 and 5."
+        errors["guests"] = "The guest count must be between 0 and 5."
         guests_val = 0
 
     note = form.get("note", "").strip()
